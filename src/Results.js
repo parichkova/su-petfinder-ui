@@ -22,8 +22,17 @@ class Results extends React.Component {
   }
 
   componentDidMount() {
+    this.search();
+  }
+
+  search = () => {
     petfinder.pet
-      .find({ output: 'full', location: this.props.searchParams.location })
+      .find({ 
+        output: 'full', 
+        location: this.props.searchParams.location,
+        animal: this.props.searchParams.animal,
+        breed: this.props.searchParams.breed,
+      })
       .then(data => {
         let pets;
 
@@ -44,7 +53,7 @@ class Results extends React.Component {
   render() {
     return (
       <div className="search">
-        <SearchBox/>
+        <SearchBox search = { this.search }/>
         {this.state.pets.map(pet => {
           let breed;
 

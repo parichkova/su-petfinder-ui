@@ -2,6 +2,7 @@ import React from 'react';
 import pf from 'petfinder-client';
 import { navigate } from '@reach/router';
 import { Carousel } from './Carousel';
+import Modal from './Modal';
 
 const API_KEY = '5dbb83b455be2053cfa2d4330f8bb614';
 const API_SECRET = '5e7ea4f63794cfd012491a0e0e8ee901';
@@ -16,7 +17,8 @@ class Details extends React.Component {
     super(props);
 
     this.state = {
-      loading: true
+      loading: true,
+      showModal: true,
     };
   }
 
@@ -55,20 +57,49 @@ class Details extends React.Component {
     if (this.state.loading) {
       return <h1>Loading...</h1>;
     }
-    const { animal, name, breed, location, description, media} = this.state;
 
+    const { 
+      animal,
+      name,
+      breed,
+      location,
+      description,
+      media,
+      showModal } = this.state;
+    let modal;
+
+    if (showModal) {
+      modal = <Modal>
+            <h1>
+              Would you like to adopt { name }?
+            </h1>
+            <div className="buttons">
+              <button onClick={this._toggleModal}>Yes</button>
+              <button onClick={this._toggleModal}>No</button>
+            </div>
+          </Modal>
+    } else {
+      modal = null;
+    }
+  
     return (
       <div className="details">
       <Carousel media={media}/>
         <div>
-          <h1>{name}</h1>
+          <h1 ref={el => (this.myH1 = el)}>{name}</h1>
           <h2>
             {animal} - {breed} - {location}
           </h2>
+          <button onClick={this._toggleModal}>Adopt { name }</button>
           <p>{description}</p>
+            {modal}
         </div>
       </div>
     );
+  }
+
+  _toggleModal = () => {
+    this.setState({ showModal: !this.state.showModal })
   }
 }
 
