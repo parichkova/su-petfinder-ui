@@ -53,7 +53,7 @@ class Results extends React.Component {
   render() {
     return (
       <div className="search">
-        <SearchBox search = { this.search }/>
+        <SearchBox search = { this.search}/>
         {this.state.pets.map(pet => {
           let breed;
 

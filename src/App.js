@@ -6,6 +6,7 @@ import Details from './Details';
 import  ResultsWithContext  from './Results';
 import SearchParams from './SearchParams';
 import { Provider } from './SearchContext';
+import Intercom from 'react-intercom';
 
 const API_KEY = '5dbb83b455be2053cfa2d4330f8bb614';
 const API_SECRET = '5e7ea4f63794cfd012491a0e0e8ee901';
@@ -18,10 +19,10 @@ const petfinder = pf({
 class App extends React.Component {
   constructor(props) {
     super(props);
-
+      
     this.state = {
       location: 'Seattle, WA',
-      animal: '',
+      animal: 'dog',
       breed: '',
       breeds: [],
       handleAnimalChange: this.handleAnimalChange,
@@ -29,6 +30,39 @@ class App extends React.Component {
       handleLocationChange: this.handleLocationChange,
       getBreeds: this.getBreeds
     };
+  }
+
+  render() {    
+    const user = {
+      user_id: 2,
+      email: "tyhomira@abv.bg",
+      name: "tish"
+    };
+
+    return (
+      <div>
+        <header>
+          <Link to="/">Get a Friend</Link>
+          <Link to="/search-params">
+            <span aria-label="search" role="img">🔍</span>
+          </Link>
+        </header>
+        <Provider value={this.state}>
+          <Router>
+            <ResultsWithContext path="/" />
+            <Details path="/details/:id" />
+            <SearchParams path="/search-params" />
+          </Router>
+        </Provider>
+        <div className="app">
+          <Intercom appID="az33rewf" {...user}/>
+        </div>
+      </div>
+    );
+  }
+
+  componentDidMount() {
+    this.getBreeds();
   }
 
   handleLocationChange = event => {
@@ -71,28 +105,6 @@ class App extends React.Component {
     } else {
       this.setState({ breeds: [] });
     }
-  }
-
-  render() {
-    return (
-      <div>
-        <header>
-          <Link to="/">Adopt me : ) </Link>
-        </header>
-        <header>
-          <Link to="/search-params">
-            <span aria-label="search" role="img">🔍</span>
-          </Link>
-        </header>
-        <Provider value={this.state}>
-          <Router>
-            <ResultsWithContext path="/" />
-            <Details path="/details/:id" />
-            <SearchParams path="/search-params" />
-          </Router>
-        </Provider>
-      </div>
-    );
   }
 }
 

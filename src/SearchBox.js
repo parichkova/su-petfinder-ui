@@ -13,10 +13,10 @@ class SearchBox extends React.Component {
       <Consumer>
         {context => (
           <div className="search-params">
-            <form onSubmit={ this.handleFormSubmit}>
+            <form className="search-form" onSubmit={ this.handleFormSubmit}>
             
               <label htmlFor="location">
-                location
+                Location
                 <input
                   onChange={context.handleLocationChange}
                   id="location"
@@ -33,6 +33,7 @@ class SearchBox extends React.Component {
                   value={context.animal}
                   placeholder="Animal"
                 >
+                 
                   {ANIMALS.map(animal => (
                     <option key={animal} value={animal}>
                       {animal}
@@ -49,14 +50,12 @@ class SearchBox extends React.Component {
                   onBlur={context.handleBreedChange}
                   disabled={!context.breeds.length}
                 >
-                  <option key="Not set" value="Not set">
-                    Not set
+                 
+                {context.breeds.map(breed => (
+                  <option key={breed} value={breed}>
+                    {breed}
                   </option>
-                  {context.breeds.map(breed => (
-                    <option key={breed} value={breed}>
-                      {breed}
-                    </option>
-                  ))}
+                ))}
                 </select>
               </label>
               <button>Search</button>
