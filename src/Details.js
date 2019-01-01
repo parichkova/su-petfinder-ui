@@ -3,6 +3,7 @@ import pf from 'petfinder-client';
 import { navigate } from '@reach/router';
 import { Carousel } from './Carousel';
 import Modal from './Modal';
+import './client';
 
 const API_KEY = '5dbb83b455be2053cfa2d4330f8bb614';
 const API_SECRET = '5e7ea4f63794cfd012491a0e0e8ee901';
@@ -74,7 +75,7 @@ class Details extends React.Component {
               Would you like to adopt { name }?
             </h1>
             <div className="buttons">
-              <button onClick={this._toggleModal}>Yes</button>
+              <button id="tish" onClick={this._toggleModal}>Yes</button>
               <button onClick={this._toggleModal}>No</button>
             </div>
           </Modal>
@@ -99,6 +100,20 @@ class Details extends React.Component {
   }
 
   _toggleModal = () => {
+    fetch('http://localhost:8080', { // optional fetch options
+      body: JSON.stringify({}), // you may send any data, encoded as you wish. shall match content-type 
+      cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+      credentials: 'same-origin', // include, same-origin, *omit
+      headers: {
+        'content-type': 'application/json'
+      },
+      method: 'POST', // *GET, POST, PUT, DELETE, etc.
+      mode: 'no-cors', // no-cors, cors, *same-origin
+      redirect: 'follow', // *manual, follow, error
+      referrer: 'no-referrer', // *client, no-referrer
+  })
+    .then(res => console.log('a', res));
+
     this.setState({ showModal: !this.state.showModal })
   }
 }
