@@ -19,7 +19,7 @@ class Details extends React.Component {
 
     this.state = {
       loading: true,
-      showModal: true,
+      showModal: false
     };
   }
 
@@ -59,49 +59,53 @@ class Details extends React.Component {
       return <h1>Loading...</h1>;
     }
 
-    const { 
+    const {
       animal,
       name,
       breed,
       location,
       description,
       media,
-      showModal } = this.state;
+      showModal
+    } = this.state;
     let modal;
 
     if (showModal) {
-      modal = <Modal>
-            <h1>
-              Would you like to adopt { name }?
-            </h1>
-            <div className="buttons">
-              <button id="tish" onClick={this._toggleModal}>Yes</button>
-              <button onClick={this._toggleModal}>No</button>
-            </div>
-          </Modal>
+      modal = (
+        <Modal>
+          <h1>Would you like to adopt {name}?</h1>
+          <div className="buttons">
+            <button id="tish" onClick={this._sendRequest}>
+              Yes
+            </button>
+            <button onClick={this._toggleModal}>No</button>
+          </div>
+        </Modal>
+      );
     } else {
       modal = null;
     }
-  
+
     return (
       <div className="details">
-      <Carousel media={media}/>
+        <Carousel media={media} />
         <div>
           <h1 ref={el => (this.myH1 = el)}>{name}</h1>
           <h2>
             {animal} - {breed} - {location}
           </h2>
-          <button onClick={this._toggleModal}>Adopt { name }</button>
+          <button onClick={this._toggleModal}>Adopt {name}</button>
           <p>{description}</p>
-            {modal}
+          {modal}
         </div>
       </div>
     );
   }
 
-  _toggleModal = () => {
-    fetch('http://localhost:8080', { // optional fetch options
-      body: JSON.stringify({}), // you may send any data, encoded as you wish. shall match content-type 
+  _sendRequest = () => {
+    fetch('http://localhost:8080', {
+      // optional fetch options
+      body: JSON.stringify({ petName: 'dundio' }), // you may send any data, encoded as you wish. shall match content-type
       cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
       credentials: 'same-origin', // include, same-origin, *omit
       headers: {
@@ -110,12 +114,15 @@ class Details extends React.Component {
       method: 'POST', // *GET, POST, PUT, DELETE, etc.
       mode: 'no-cors', // no-cors, cors, *same-origin
       redirect: 'follow', // *manual, follow, error
-      referrer: 'no-referrer', // *client, no-referrer
-  })
-    .then(res => console.log('a', res));
+      referrer: 'no-referrer' // *client, no-referrer
+    }).then(res => console.log('a', res));
 
-    this.setState({ showModal: !this.state.showModal })
-  }
+    this._toggleModal();
+  };
+
+  _toggleModal = () => {
+    this.setState({ showModal: !this.state.showModal });
+  };
 }
 
 export default Details;

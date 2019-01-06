@@ -1,4 +1,3 @@
-
 var http = require('http');
 var express = require('express');
 var WSS = require('ws').Server;
@@ -16,17 +15,20 @@ var wss = new WSS({ port: 8081 });
 
 app.get('/', (req, res) => {
   res.send('test');
-})
+});
 
 app.post('/', (req, res) => {
-  broadcast('tish');
-})
+  broadcast('shmyrkan');
+
+  res.set('Content-Type', 'application/JSON');
+  res.send(JSON.stringify({ joro: true }));
+});
 
 wss.on('connection', function(socket) {
   console.log('Opened Connection 🎉');
 
   var json = JSON.stringify({ message: 'Gotcha' });
-  
+
   socket.send(json);
   console.log('Sent: ' + json);
 
@@ -43,16 +45,15 @@ wss.on('connection', function(socket) {
   socket.on('close', function() {
     console.log('Closed Connection 😱');
   });
-
 });
 
 var broadcast = function(param) {
   var json = JSON.stringify({
-    message: `Hello there, ${param}`
+    message: param
   });
 
   wss.clients.forEach(function each(client) {
     client.send(json);
     console.log('Sent: ' + json);
   });
-}
+};

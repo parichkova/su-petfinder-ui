@@ -8,7 +8,8 @@
     "format": "prettier --write \"src/**/*.{js,jsx}\"",
     "lint": "eslint \"src/**/*.{js,jsx}\" --quiet",
     "dev": "parcel src/index.html --port 1234",
-    "start": "parcel src/index.html --port 7001"
+    "start": "parcel src/index.html --port 7001",
+    "websockets": "node server.js"
   },
   "repository": {
     "type": "git",

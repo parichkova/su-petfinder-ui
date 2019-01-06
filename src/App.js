@@ -3,9 +3,10 @@ import pf from 'petfinder-client';
 import React from 'react';
 import { render } from 'react-dom';
 import Details from './Details';
-import  ResultsWithContext  from './Results';
+import ResultsWithContext from './Results';
 import SearchParams from './SearchParams';
 import { Provider } from './SearchContext';
+import WS from './client';
 import Intercom from 'react-intercom';
 
 const API_KEY = '5dbb83b455be2053cfa2d4330f8bb614';
@@ -19,7 +20,7 @@ const petfinder = pf({
 class App extends React.Component {
   constructor(props) {
     super(props);
-      
+
     this.state = {
       location: 'Seattle, WA',
       animal: 'dog',
@@ -32,11 +33,11 @@ class App extends React.Component {
     };
   }
 
-  render() {    
+  render() {
     const user = {
       user_id: 2,
-      email: "tyhomira@abv.bg",
-      name: "tish"
+      email: 'tyhomira@abv.bg',
+      name: 'tish'
     };
 
     return (
@@ -44,7 +45,9 @@ class App extends React.Component {
         <header>
           <Link to="/">Get a Friend</Link>
           <Link to="/search-params">
-            <span aria-label="search" role="img">🔍</span>
+            <span aria-label="search" role="img">
+              🔍
+            </span>
           </Link>
         </header>
         <Provider value={this.state}>
@@ -54,8 +57,8 @@ class App extends React.Component {
             <SearchParams path="/search-params" />
           </Router>
         </Provider>
-        <div className="app">
-          <Intercom appID="az33rewf" {...user}/>
+        <div className="ws">
+          <WS name="jorkata" />
         </div>
       </div>
     );
